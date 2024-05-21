@@ -1,0 +1,16 @@
+{
+  "name": "clientside",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "aakash chauhan",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.1",
+    "chokidar": "^3.6.0",
+    "nodemon": "^3.1.0"
+  }
+}

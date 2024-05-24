@@ -9,10 +9,10 @@ dotenv.config({
 connectDB()
   .then(() => {
     const port = process.env.PORT || 8000;
-    const localIP = "0.0.0.0"; // Replace with your local IP address
+    // const localIP = "0.0.0.0"; // Replace with your local IP address
 
     app.listen(port, () => {
-      console.log(`Server is running at http://${localIP}:${port}`);
+      console.log(`Server is running at http://localhost:${port}`);
     });
   })
   .catch((err) => {

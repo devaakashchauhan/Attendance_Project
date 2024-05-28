@@ -35,9 +35,10 @@ const respon = asyncHandler(async (req, res) => {
   });
 
   // console.log(count);
+  const formattedRfid = rfid.toString().padStart(10, "0");
 
   const attendancesEntry = await AttendanceEntry.create({
-    rfid: rfid.toString(),
+    rfid: formattedRfid,
     entryType: count % 2 !== 0 ? "Exit" : "Entery",
     entryNumber: count,
     entryTime: `${hourse}:${minutes}:${second}`,

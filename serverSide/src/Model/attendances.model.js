@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const attendancesSchema = new Schema(
   {
     rfid: {
-      type: Number,
+      type: String,
     },
     entryType: {
       type: String,

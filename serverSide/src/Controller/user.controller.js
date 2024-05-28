@@ -9,7 +9,7 @@ import { apiResponse } from "../Utils/apiResponse.utils.js";
 
 const respon = asyncHandler(async (req, res) => {
   const { rfid } = req.body;
-  console.log(rfid, "ok");
+  console.log(rfid);
 
   if (!rfid) {
     throw new apiError(400, "RFID is requried.");
@@ -35,10 +35,9 @@ const respon = asyncHandler(async (req, res) => {
   });
 
   // console.log(count);
-  const formattedRfid = "rf-" + rfid;
 
   const attendancesEntry = await AttendanceEntry.create({
-    rfid: formattedRfid,
+    rfid,
     entryType: count % 2 !== 0 ? "Exit" : "Entery",
     entryNumber: count,
     entryTime: `${hourse}:${minutes}:${second}`,

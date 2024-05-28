@@ -35,7 +35,7 @@ const respon = asyncHandler(async (req, res) => {
   });
 
   // console.log(count);
-  const formattedRfid = rfid.toString().padStart(10, "0");
+  const formattedRfid = "rf-" + rfid;
 
   const attendancesEntry = await AttendanceEntry.create({
     rfid: formattedRfid,

@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 const userSchema = new Schema(
   {
     rfid: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
       trim: true,

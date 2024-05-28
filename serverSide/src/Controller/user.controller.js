@@ -9,6 +9,7 @@ import { apiResponse } from "../Utils/apiResponse.utils.js";
 
 const respon = asyncHandler(async (req, res) => {
   const { rfid } = req.body;
+  console.log(rfid);
 
   if (!rfid) {
     throw new apiError(400, "RFID is requried.");
@@ -33,7 +34,7 @@ const respon = asyncHandler(async (req, res) => {
     createdAt: { $gte: startOfDay, $lt: endOfDay },
   });
 
-  console.log(count);
+  // console.log(count);
 
   const attendancesEntry = await AttendanceEntry.create({
     rfid,

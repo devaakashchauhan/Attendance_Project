@@ -9,7 +9,7 @@ import { apiResponse } from "../Utils/apiResponse.utils.js";
 
 const respon = asyncHandler(async (req, res) => {
   const { rfid } = req.body;
-  console.log(rfid);
+  console.log(rfid, "ok");
 
   if (!rfid) {
     throw new apiError(400, "RFID is requried.");

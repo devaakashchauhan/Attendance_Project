@@ -37,7 +37,7 @@ const respon = asyncHandler(async (req, res) => {
   // console.log(count);
 
   const attendancesEntry = await AttendanceEntry.create({
-    rfid,
+    rfid: rfid.tostring(),
     entryType: count % 2 !== 0 ? "Exit" : "Entery",
     entryNumber: count,
     entryTime: `${hourse}:${minutes}:${second}`,
@@ -52,4 +52,22 @@ const respon = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, rfid, "Attendance entry created succesfully."));
 });
 
-export { respon };
+const userRegisteration = asyncHandler(async (req, res) => {
+  const { rfid } = req.body;
+
+  const exitedUser = await User.findOne({ rfid });
+
+  if (exitedUser) {
+    throw new apiError(400, "username  already exists !!!");
+  }
+
+  const user = await User.create({
+    rfid: 2758330620,
+    fullname: "Saalim Shaikh",
+    email: "saalim2470@gmail.com",
+    role: "Software Developer",
+  });
+  return res.status(200);
+});
+
+export { respon, userRegisteration };

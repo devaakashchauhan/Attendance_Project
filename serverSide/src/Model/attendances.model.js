@@ -15,11 +15,6 @@ const attendancesSchema = new Schema(
       required: true,
       default: 0,
     },
-    entryTime: {
-      type: String,
-      required: true,
-      trim: true,
-    },
   },
   { timestamps: true }
 );

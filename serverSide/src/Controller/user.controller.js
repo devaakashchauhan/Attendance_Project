@@ -7,25 +7,27 @@ import { apiError } from "../Utils/apiError.utils.js";
 import { asyncHandler } from "../Utils/asyncHandler.utils.js";
 import { apiResponse } from "../Utils/apiResponse.utils.js";
 
-const respon = asyncHandler(async (req, res) => {
+const attendance = asyncHandler(async (req, res) => {
   const { rfid } = req.body;
   console.log(rfid);
 
   if (!rfid) {
     throw new apiError(400, "RFID is requried.");
   }
-  const d = new Date();
 
-  const year = d.getFullYear();
-  const month = d.getMonth();
-  const day = d.getDate();
-  const hourse = d.getHours();
-  const minutes = d.getMinutes();
-  const second = d.getSeconds();
-  // console.log(time);
+  const date = new Date();
 
-  const startOfDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const endOfDay = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+  const startOfDay = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+
+  const endOfDay = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate() + 1
+  );
   // console.log(startOfDay);
   // console.log(endOfDay);
 
@@ -34,13 +36,10 @@ const respon = asyncHandler(async (req, res) => {
     createdAt: { $gte: startOfDay, $lt: endOfDay },
   });
 
-  // console.log(count);
-
   const attendancesEntry = await AttendanceEntry.create({
     rfid,
     entryType: count % 2 !== 0 ? "Exit" : "Entery",
     entryNumber: count,
-    entryTime: `${hourse}:${minutes}:${second}`,
   });
 
   if (!attendancesEntry) {
@@ -70,4 +69,4 @@ const userRegisteration = asyncHandler(async (req, res) => {
   return res.status(200);
 });
 
-export { respon, userRegisteration };
+export { attendance, userRegisteration };

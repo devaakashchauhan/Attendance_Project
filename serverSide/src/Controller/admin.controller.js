@@ -19,11 +19,21 @@ const hourseCalculation = asyncHandler(async (req, res) => {
   if (!rfid) {
     throw new apiError(400, "RFID is requried.");
   }
+  const date1 = new Date();
+  const date2 = new Date();
+  date1.setHours(0, 0, 0, 0);
+  date2.setHours(23, 59, 59, 999);
+  console.log(date1);
+  console.log(date2);
 
   const allTimesWithDate = await AttendanceEntry.aggregate([
     {
       $match: {
         rfid: rfid,
+        createdAt: {
+          $gte: date1,
+          $lte: date2,
+        },
       },
     },
     {
@@ -80,82 +90,6 @@ const hourseCalculation = asyncHandler(async (req, res) => {
     .status(200)
     .json(new apiResponse(200, { allTimes }, "Employess total hourse."));
 });
-
-// const dateRangeHourseCalculation = asyncHandler(async (req, res) => {
-//   const { rfid, startDate, endDate } = req.body;
-
-//   if (!rfid) {
-//     throw new apiError(400, "RFID is requried.");
-//   }
-//   if (!startDate && !endDate) {
-//     throw new apiError(400, "Date rage is requried.");
-//   }
-//   const startDateObj = new Date(startDate);
-//   const endDateObj = new Date(endDate);
-//   endDateObj.setHours(23, 59, 59, 999);
-
-//   const allTimesWithDate = await AttendanceEntry.aggregate([
-//     {
-//       $match: {
-//         rfid: rfid,
-//         createdAt: {
-//           $gte: startDateObj,
-//           $lte: endDateObj,
-//         },
-//       },
-//     },
-//     {
-//       $sort: {
-//         createdAt: 1,
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: {
-//           year: { $year: "$createdAt" },
-//           month: { $month: "$createdAt" },
-//           day: { $dayOfMonth: "$createdAt" },
-//         },
-//         allEntries: { $push: "$createdAt" },
-//       },
-//     },
-//     {
-//       $project: {
-//         _id: 0,
-//         date: {
-//           $dateToString: {
-//             format: "%Y-%m-%d",
-//             date: {
-//               $dateFromParts: {
-//                 year: "$_id.year",
-//                 month: "$_id.month",
-//                 day: "$_id.day",
-//               },
-//             },
-//           },
-//         },
-//         allEntries: 1,
-//       },
-//     },
-//     {
-//       $sort: {
-//         date: 1,
-//       },
-//     },
-//   ]);
-
-//   let allDateData = [];
-
-//   allTimesWithDate.map((el) => {
-//     allDateData.push(calculateTime(el));
-//   });
-//   // console.table(allDateData);
-//   generatePDF(res);
-
-//   return res
-//     .status(200)
-//     .json(new apiResponse(200, { allDateData }, "Employess total hourse."));
-// });
 
 const dateRangeHourseCalculation = asyncHandler(async (req, res) => {
   const { rfid, startDate, endDate } = req.body;

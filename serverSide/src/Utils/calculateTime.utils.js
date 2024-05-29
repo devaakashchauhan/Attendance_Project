@@ -1,12 +1,24 @@
 function calculateTime(objectOfTime) {
   const onlyTimeData = objectOfTime.allEntries;
   let allTimes = [];
+  let allEntryTimes = [];
   let totalWorkingTime = [0, 0, 0];
   let totalBreakTime = [0, 0, 0];
-
   if (onlyTimeData.length % 2 !== 0) {
     onlyTimeData.pop();
   }
+
+  const options = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  };
+
+  onlyTimeData.map((ele) => {
+    allEntryTimes.push(new Date(ele).toLocaleTimeString("en-US", options));
+  });
+
   const l = onlyTimeData.length;
 
   for (let i = 0; i < l - 1; i++) {
@@ -21,7 +33,12 @@ function calculateTime(objectOfTime) {
       totalTimeDifferentInSeconds,
       i % 2 === 0 ? true : false
     );
+
     allTimes.push(time);
+    // allEntry.push(new Date(entryTime).toLocaleTimeString("en-US", options));
+    // allExit.push(new Date(entryTime).toLocaleTimeString("en-US", options));
+    // console.log(new Date(entryTime).toLocaleTimeString("en-US", options));
+    // console.log(new Date(exitTime).toLocaleTimeString("en-US", options));
   }
 
   function timeCaculation(totalTimeDifferentInSeconds, pass) {
@@ -53,7 +70,9 @@ function calculateTime(objectOfTime) {
 
   return {
     date: objectOfTime.date,
+    fullname: objectOfTime.fullname,
     allTime: allTimes,
+    allEntryTimes: allEntryTimes,
     totalWorkingTime: totalWorkingTime,
     totalBreakTime: totalBreakTime,
   };

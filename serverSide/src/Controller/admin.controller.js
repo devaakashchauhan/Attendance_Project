@@ -23,8 +23,6 @@ const hourseCalculation = asyncHandler(async (req, res) => {
   const date2 = new Date();
   date1.setHours(0, 0, 0, 0);
   date2.setHours(23, 59, 59, 999);
-  console.log(date1);
-  console.log(date2);
 
   const allTimesWithDate = await AttendanceEntry.aggregate([
     {
@@ -127,7 +125,19 @@ const dateRangeHourseCalculation = asyncHandler(async (req, res) => {
           day: { $dayOfMonth: "$createdAt" },
         },
         allEntries: { $push: "$createdAt" },
+        rfid: { $first: "$rfid" }, // Keep the rfid for lookup
       },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "rfid",
+        foreignField: "rfid",
+        as: "userDetails",
+      },
+    },
+    {
+      $unwind: "$userDetails",
     },
     {
       $project: {
@@ -145,6 +155,7 @@ const dateRangeHourseCalculation = asyncHandler(async (req, res) => {
           },
         },
         allEntries: 1,
+        fullname: "$userDetails.fullname", // Include the fullname from the joined user details
       },
     },
     {
@@ -159,7 +170,20 @@ const dateRangeHourseCalculation = asyncHandler(async (req, res) => {
   allTimesWithDate.map((el) => {
     allDateData.push(calculateTime(el));
   });
-  // console.table();
+
+  allDateData.map((ele) => {
+    for (let i = 2; i > 0; i--) {
+      while (ele.totalWorkingTime[i] >= 60) {
+        ele.totalWorkingTime[i] -= 60;
+        ele.totalWorkingTime[i - 1] += 1;
+      }
+      while (ele.totalBreakTime[i] >= 60) {
+        ele.totalBreakTime[i] -= 60;
+        ele.totalBreakTime[i - 1] += 1;
+      }
+    }
+  });
+
   generatePDF(res, allDateData);
 
   const __filename = fileURLToPath(import.meta.url);

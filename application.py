@@ -33,10 +33,10 @@ def update_status(rfid):
 
     status_code, response = call_api(rfid)
     if status_code:
-        status_label.config(text=f"Success: {status_code}", fg="green")
+        status_label.config(text=f"Success", fg="green")
         print(response)  # Or process the response as needed
     else:
-        status_label.config(text=f"Failed: {response}", fg="red")
+        status_label.config(text=f"Failed", fg="red")
 
     # Clear the message after 3 seconds
     root.after(3000, clear_message)

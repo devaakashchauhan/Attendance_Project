@@ -10,7 +10,7 @@ from tkinter.simpledialog import askstring
 
 # API details
 API_URL = "https://attendance-project-3t8h.onrender.com/api/v1/users/attendances"
-SPECIAL_RFID = "2761228716"  # Special RFID
+SPECIAL_RFID = "0005983798"  # Special RFID
 rfid_input = []
 last_input_time = 0
 debounce_time = 1  # Adjust debounce time as needed (in seconds)

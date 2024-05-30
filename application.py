@@ -9,7 +9,7 @@ from tkinter.simpledialog import askstring
 
 
 # API details
-API_URL = "https://attendance-project-3t8h.onrender.com"
+API_URL = "https://attendance-project-3t8h.onrender.com//api/v1/users/attendances"
 SPECIAL_RFID = "2761228716"  # Special RFID
 rfid_input = []
 last_input_time = 0

@@ -12,11 +12,11 @@ function calculateTime(objectOfTime) {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hour12: false,
+    hour12: true,
   };
 
   onlyTimeData.map((ele) => {
-    allEntryTimes.push(new Date(ele).toLocaleTimeString("en-US", options));
+    allEntryTimes.push(new Date(ele).toLocaleTimeString("en-IN", options));
   });
 
   const l = onlyTimeData.length;

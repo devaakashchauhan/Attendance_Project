@@ -1,12 +1,27 @@
 function calculateTime(objectOfTime) {
-  const onlyTimeData = objectOfTime.allEntries;
+  const onlyTimeData = objectOfTime.entries;
+  // console.log("inner :- ", objectOfTime);
+
   let allTimes = [];
   let allEntryTimes = [];
   let totalWorkingTime = [0, 0, 0];
   let totalBreakTime = [0, 0, 0];
+
   if (onlyTimeData.length % 2 !== 0) {
-    onlyTimeData.pop();
+    // onlyTimeData.pop();
+
+    let t1 = new Date(onlyTimeData[0]);
+    let t2 = new Date(onlyTimeData[0]);
+
+    if (onlyTimeData[0] > t1.setHours(9, 0, 0, 0)) {
+      t1.setHours(9, 0, 0, 0);
+      onlyTimeData.unshift(t1);
+    }
+    t2.setHours(18, 0, 0, 0);
+
+    onlyTimeData.push(t2);
   }
+  // console.log(onlyTimeData);
 
   const options = {
     timeZone: "Asia/Kolkata",
@@ -20,11 +35,13 @@ function calculateTime(objectOfTime) {
     allEntryTimes.push(new Date(ele).toLocaleTimeString("en-IN", options));
   });
 
+  // console.log(allEntryTimes);
+
   const l = onlyTimeData.length;
 
-  for (let i = 0; i < l - 1; i++) {
+  for (let i = 0; i < 1; i++) {
     let entryTime = onlyTimeData[i];
-    let exitTime = onlyTimeData[i + 1];
+    let exitTime = onlyTimeData[onlyTimeData.length - 1];
     let entryTimeInSecondFormat = entryTime.getTime() / 1000;
     let exitTimeInSecondFormat = exitTime.getTime() / 1000;
     let totalTimeDifferentInSeconds =
@@ -36,10 +53,6 @@ function calculateTime(objectOfTime) {
     );
 
     allTimes.push(time);
-    // allEntry.push(new Date(entryTime).toLocaleTimeString("en-US", options));
-    // allExit.push(new Date(entryTime).toLocaleTimeString("en-US", options));
-    // console.log(new Date(entryTime).toLocaleTimeString("en-US", options));
-    // console.log(new Date(exitTime).toLocaleTimeString("en-US", options));
   }
 
   function timeCaculation(totalTimeDifferentInSeconds, pass) {
@@ -70,12 +83,13 @@ function calculateTime(objectOfTime) {
   }
 
   return {
-    date: objectOfTime.date,
-    fullname: objectOfTime.fullname,
+    fulldate: objectOfTime.date,
+    // fullname: objectOfTime.fullname,
     allTime: allTimes,
     allEntryTimes: allEntryTimes,
     totalWorkingTime: totalWorkingTime,
     totalBreakTime: totalBreakTime,
+    dayOfWeek: objectOfTime.dayOfWeek,
   };
 }
 
